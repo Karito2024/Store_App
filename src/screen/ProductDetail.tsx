@@ -9,7 +9,7 @@ const ProductDetail = ({ route }: { route: any }) => {
     const navigation = useNavigation();
      useLayoutEffect(() => {
             navigation.setOptions({
-                title: 'Inicio',
+                title: 'Detalles',
                 headerShown: true,
                 headerRight: () => (
                     <TouchableOpacity
