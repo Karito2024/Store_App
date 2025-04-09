@@ -1,17 +1,14 @@
-import { NavigationContainer } from '@react-navigation/native'
-import React from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import StackNavigator from './src/navigation/StackNavigator'
-
+import 'react-native-reanimated';
+import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import StackNavigator from './src/navigation/StackNavigator';
 
 const App = () => {
   return (
-    // <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <StackNavigator />
-      </NavigationContainer>
-    // </GestureHandlerRootView>
-  )
-}
+    <NavigationContainer>
+      <StackNavigator /> {/* Solo un navegador raíz */}
+    </NavigationContainer>
+  );
+};
 
-export default App
+export default App;

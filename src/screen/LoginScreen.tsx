@@ -1,7 +1,8 @@
-//Login
+import 'react-native-reanimated';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground, Image, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import global from '../styles/global';
 
 const LoginScreen = ({ navigation }: any) => {
     const [correo, setCorreo] = useState('');
@@ -9,7 +10,7 @@ const LoginScreen = ({ navigation }: any) => {
 
     const manejarLogin = async () => {
         if (!correo || !password) {
-            Alert.alert('Error', 'Todos los campos son obligatorios');
+            Alert.alert('Oops!', 'Todos los campos son obligatorios');
             return;
         }
 
@@ -17,14 +18,13 @@ const LoginScreen = ({ navigation }: any) => {
             const data = await AsyncStorage.getItem('usuarios');
             const usuarios = data ? JSON.parse(data) : [];
 
-            const usuario = usuarios.find((u: any) => u.email === correo &&
-                u.password === password);
+            const usuario = usuarios.find((u: any) => u.email === correo && u.password === password);
 
             if (usuario) {
                 await AsyncStorage.setItem('usuarioActivo', JSON.stringify(usuario));
-                navigation.replace('Home', { user: usuario.nombre });
+                navigation.replace('Main', { user: usuario.nombre }); // Cambiado a 'Main'
             } else {
-                Alert.alert('Error', 'Credenciales incorrectas');
+                Alert.alert('Oops!', 'Credenciales incorrectas');
             }
         } catch (error) {
             Alert.alert('Error', 'No se pudo validar el usuario');
@@ -32,46 +32,48 @@ const LoginScreen = ({ navigation }: any) => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Iniciar Sesión</Text>
+        <ImageBackground 
+            source={require('../assets/cute-background.jpg')} 
+            style={global.authBackground}
+            imageStyle={{ opacity: 0.3 }}
+        >
+            <View style={global.authContainer}>
+                <Text style={global.authTitle}> Inicia Sesión </Text>
+                
+                <TextInput
+                    placeholder="Correo"
+                    placeholderTextColor="#ffb6c1"
+                    style={global.authInput}
+                    value={correo}
+                    onChangeText={setCorreo}
+                    keyboardType="email-address"
+                />
 
-            <TextInput
-                placeholder="Correo"
-                style={styles.input}
-                value={correo}
-                onChangeText={setCorreo}
-            />
+                <TextInput
+                    placeholder="Contraseña"
+                    placeholderTextColor="#ffb6c1"
+                    secureTextEntry
+                    style={global.authInput}
+                    value={password}
+                    onChangeText={setPassword}
+                />
 
-            <TextInput
-                placeholder="Contraseña"
-                secureTextEntry
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-            />
+                <TouchableOpacity style={global.authButton} onPress={manejarLogin}>
+                    <Text style={global.authButtonText}>Ingresar</Text>
+                </TouchableOpacity>
 
-            <Button title="Ingresar" onPress={manejarLogin} />
-
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text style={styles.registerText}>¿No tienes cuenta? Registrate</Text>
-            </TouchableOpacity>
-        </View>
+                <Text style={global.authFooterText}>
+                    ¿No tienes cuenta? {' '}
+                    <Text 
+                        style={global.authLinkText}
+                        onPress={() => navigation.navigate('Register')}
+                    >
+                        Regístrate
+                    </Text>
+                </Text>
+            </View>
+        </ImageBackground>
     );
 };
-
-const styles = StyleSheet.create({
-    container: { padding: 20, flex: 1, justifyContent: 'center' },
-    title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-    input: {
-        borderWidth: 1, borderColor: '#ccc', padding: 10,
-        marginBottom: 15, borderRadius: 5
-    },
-    registerText: {
-        marginTop: 20,
-        textAlign: 'center',
-        color: '#0066cc',
-        textDecorationLine: 'underline'
-    }
-});
 
 export default LoginScreen;
