@@ -238,10 +238,11 @@ export default StyleSheet.create({
         marginRight: 10,
     },
     searchContainer: {
-        top: -20,
+        top: 15,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 5,
+        position: 'absolute',
         
     },
     searchInput: {
