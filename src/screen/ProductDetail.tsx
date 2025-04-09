@@ -1,9 +1,39 @@
-import React from 'react';
-import { Image, ScrollView, Text, View, StyleSheet, ImageBackground } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { Image, ScrollView, Text, View, StyleSheet, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import global from '../styles/global';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductDetail = ({ route }: { route: any }) => {
     const { product } = route.params;
+    const navigation = useNavigation();
+     useLayoutEffect(() => {
+            navigation.setOptions({
+                title: 'Inicio',
+                headerShown: true,
+                headerRight: () => (
+                    <TouchableOpacity
+                        onPress={() => {
+                            Alert.alert(
+                                'Cerrar sesión',
+                                '¿Deseas salir?',
+                                [
+                                    { text: 'Cancelar', style: 'cancel' },
+                                    {
+                                        text: 'Salir',
+                                        style: 'destructive',
+                                        onPress: () => navigation.navigate('Login' as never),
+                                    },
+                                ]
+                            )
+                        }}
+                        style={{ marginRight: 15 }}
+                    >
+                        <Ionicons name="log-out-outline" size={24} color="black" />
+                    </TouchableOpacity>
+                ),
+            })
+        }, [navigation])
 
     return (
 

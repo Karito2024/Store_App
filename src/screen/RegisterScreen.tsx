@@ -27,7 +27,7 @@ const RegisterScreen = ({ navigation }: any) => {
             const nuevoUsuario = { nombre, email, password: pass };
             usuarios.push(nuevoUsuario);
             await AsyncStorage.setItem('usuarios', JSON.stringify(usuarios));
-            Alert.alert('¡Yay!', 'Registro completado con éxito');
+            Alert.alert('Registro completado con éxito');
             navigation.navigate('Login');
         } catch (error) {
             Alert.alert('Error', 'Error al guardar el usuario');
@@ -41,16 +41,6 @@ const RegisterScreen = ({ navigation }: any) => {
             imageStyle={{ opacity: 0.3 }}
         >
             <View style={global.authContainer}>
-                {/* Decoraciones cute */}
-                {/* <Image 
-                    source={require('../assets/flower-decoration.png')}
-                    style={[global.cuteDecoration, { top: 40, right: 30 }]}
-                />
-                <Image 
-                    source={require('../assets/cloud-decoration.png')}
-                    style={[global.cuteDecoration, { bottom: 60, left: 30 }]} 
-                />*/}
-                
                 <Text style={global.authTitle}> Regístrate </Text>
                 
                 <TextInput
